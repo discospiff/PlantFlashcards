@@ -1,5 +1,6 @@
 package com.plantflashcards.plantflashcards
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
@@ -55,4 +56,37 @@ class FlashcardActivity : AppCompatActivity() {
         var length = foo?.length ?: 10
         var redbud = Plant(1, "Cercis", "canadensis", "", "Eastern Redbud", 5)
     }
+
+    inner class GetPlantsActivity : AsyncTask<String, Int, List<Plant>>() {
+
+        /**
+         * Has access to the user interface thread, and the components of the
+         * encolsing activity.
+         * In this method, we can update the screen based on the data retrieved in
+         * the background thread.
+         */
+        override fun onPostExecute(result: List<Plant>?) {
+            super.onPostExecute(result)
+        }
+
+        /**
+         * this method runs on a separate thread, so it can perform networking operations
+         * without impacting our User Interface experience.
+         * @param p0: an idication of the plant types for which we want flashcards.
+         * @return A collection of populated Plant objects, where those plants were populated from our JSON data stream.
+         */
+        override fun doInBackground(vararg p0: String?): List<Plant> {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+            // open a network connection to our JSON data feed: http://plantplaces.com/perl/mobile/flashcard.pl
+
+            // parse the raw data into a set of Plant objects.
+
+            // add the plant objects to a collection.
+
+            // return the collection.
+        }
+
+    }
+
 }
