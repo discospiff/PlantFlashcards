@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.plantflashcards.plantflashcards.dto.Plant
+import com.plantflashcards.plantflashcards.service.PlantService
 
 class FlashcardActivity : AppCompatActivity() {
 
@@ -47,6 +48,15 @@ class FlashcardActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun onButton3Clicked(v: View) {
+        // create an object of our inner AsyncTask class.
+        var getPlantsActivity = GetPlantsActivity()
+        // the method called execute will start a new thread, and THEN invoke
+        // doInBackground on that new thread.
+        getPlantsActivity.execute("1")
+
+    }
+
     fun onButton4Clicked(v: View) {
         val ONE_MINUTE = 60000;
         var FIFTEEN_SECONDS = ONE_MINUTE/4;
@@ -57,7 +67,7 @@ class FlashcardActivity : AppCompatActivity() {
         var redbud = Plant(1, "Cercis", "canadensis", "", "Eastern Redbud", 5)
     }
 
-    inner class GetPlantsActivity : AsyncTask<String, Int, List<Plant>>() {
+    inner class GetPlantsActivity : AsyncTask<String, Int, List<Plant>?>() {
 
         /**
          * Has access to the user interface thread, and the components of the
@@ -75,18 +85,20 @@ class FlashcardActivity : AppCompatActivity() {
          * @param p0: an idication of the plant types for which we want flashcards.
          * @return A collection of populated Plant objects, where those plants were populated from our JSON data stream.
          */
-        override fun doInBackground(vararg p0: String?): List<Plant> {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        override fun doInBackground(vararg p0: String?): List<Plant>? {
+            // get the difficulty from the incoming parameter as the first argument of the array.
+            var difficulty = p0[0]
 
-            // open a network connection to our JSON data feed: http://plantplaces.com/perl/mobile/flashcard.pl
+            // create an object of PlantService
+            var plantService = PlantService()
 
-            // parse the raw data into a set of Plant objects.
+            // invoke another function.
+            return plantService.parsePlantsFromJSONData(difficulty)
 
-            // add the plant objects to a collection.
-
-            // return the collection.
         }
 
     }
+
+
 
 }
