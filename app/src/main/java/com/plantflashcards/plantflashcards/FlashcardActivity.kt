@@ -1,7 +1,11 @@
 package com.plantflashcards.plantflashcards
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.AsyncTask
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -9,12 +13,16 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import com.plantflashcards.plantflashcards.dto.Photo
 import com.plantflashcards.plantflashcards.dto.Plant
 import com.plantflashcards.plantflashcards.service.PlantService
 
 class FlashcardActivity : AppCompatActivity() {
+
+    val CAMERA_ACTIVITY_REQUEST = 10
+    var imageView:ImageView ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +35,8 @@ class FlashcardActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
+        imageView = findViewById(R.id.imageView) as ImageView
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -79,13 +89,23 @@ class FlashcardActivity : AppCompatActivity() {
     }
 
     fun onButton4Clicked(v: View) {
-        val ONE_MINUTE = 60000;
-        var FIFTEEN_SECONDS = ONE_MINUTE/4;
-        Toast.makeText(this, "You clicked me!", Toast.LENGTH_LONG).show()
-        var j = 1 + 1
-        var foo:String? = "bar";
-        var length = foo?.length ?: 10
-        var redbud = Plant(1, "Cercis", "canadensis", "", "Eastern Redbud", 5)
+        // create an implicit intent to invoke the camera.
+        var cameraActivityIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraActivityIntent, CAMERA_ACTIVITY_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CAMERA_ACTIVITY_REQUEST) {
+                // I'm hearing back from the camera.
+
+                var image = data?.getExtras()?.get("data") as Bitmap
+                var i = 1 + 1
+                imageView?.setImageBitmap(image);
+            }
+        }
+
     }
 
     inner class GetPlantsActivity : AsyncTask<String, Int, List<Plant>?>() {
