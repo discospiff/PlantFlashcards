@@ -10,6 +10,7 @@ import android.view.View
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.plantflashcards.plantflashcards.dto.Photo
 import com.plantflashcards.plantflashcards.dto.Plant
 import com.plantflashcards.plantflashcards.service.PlantService
 
@@ -46,6 +47,26 @@ class FlashcardActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    fun onButton1Clicked(v: View) {
+        var foo:String? = "bar"
+        var size = foo?.length ?: 0
+        var i = 1 + 1
+
+    }
+
+    fun onButton2Clicked(v: View) {
+        // declare collection
+        var allPlants = ArrayList<Plant>()
+
+        // create an object of a plant.
+        var redbud = Plant(83,"Cercis", "canadensis", "", "Eastern Redbud")
+        allPlants.add(redbud)
+        var pawpaw = Plant(100, "Asimina", "triloba", "Alleghany", "Alleghany Pawpaw", 10)
+        allPlants.add(pawpaw)
+
+        var i = 1 + 1
     }
 
     fun onButton3Clicked(v: View) {
