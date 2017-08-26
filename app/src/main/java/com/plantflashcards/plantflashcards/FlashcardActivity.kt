@@ -50,7 +50,7 @@ class FlashcardActivity : AppCompatActivity() {
         val ONE_MINUTE = 60000;
         var FIFTEEN_SECONDS = ONE_MINUTE/4;
         Toast.makeText(this, "You clicked me!", Toast.LENGTH_LONG).show()
-
+        var j = 1 + 1
         var foo:String? = "bar";
         var length = foo?.length ?: 10
         var redbud = Plant(1, "Cercis", "canadensis", "", "Eastern Redbud", 5)
