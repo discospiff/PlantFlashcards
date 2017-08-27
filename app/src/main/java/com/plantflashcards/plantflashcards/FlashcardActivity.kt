@@ -16,6 +16,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.plantflashcards.plantflashcards.dto.Photo
 import com.plantflashcards.plantflashcards.dto.Plant
@@ -29,6 +30,9 @@ class FlashcardActivity : AppCompatActivity() {
     var button2: Button? = null
     var button3: Button? = null
     var button4: Button? = null
+    var correctAnswer = 0
+    var status : TextView? = null
+    var allPlants : List<Plant> = ArrayList<Plant>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +51,7 @@ class FlashcardActivity : AppCompatActivity() {
         button2 = findViewById(R.id.button2) as Button
         button3 = findViewById(R.id.button3) as Button
         button4 = findViewById(R.id.button4) as Button
+        status = findViewById(R.id.txtStatus) as TextView
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -70,52 +75,35 @@ class FlashcardActivity : AppCompatActivity() {
     }
 
     fun onButton1Clicked(v: View) {
-        // select a random number between 1 and 4.
-        var randomNumber: Int = (Math.random() * 4).toInt() + 1
+        evaluate(0)
 
-        if (randomNumber == 1) {
-            button1?.setBackgroundColor(Color.GREEN)
-        } else if (randomNumber == 2) {
-            button2?.setBackgroundColor(Color.GREEN)
-        }else if (randomNumber == 3) {
-            button3?.setBackgroundColor(Color.GREEN)
-        } else if (randomNumber == 4) {
-            button4?.setBackgroundColor(Color.GREEN)
-        }
     }
 
 
     fun onButton2Clicked(v: View) {
-        button1?.setBackgroundColor(Color.LTGRAY)
-        button2?.setBackgroundColor(Color.LTGRAY)
-        button3?.setBackgroundColor(Color.LTGRAY)
-        button4?.setBackgroundColor(Color.LTGRAY)
-
-        // declare collection
-        var allPlants = ArrayList<Plant>()
-
-        // create an object of a plant.
-        var redbud = Plant(83,"Cercis", "canadensis", "", "Eastern Redbud")
-        allPlants.add(redbud)
-        var pawpaw = Plant(100, "Asimina", "triloba", "Alleghany", "Alleghany Pawpaw", 10)
-        allPlants.add(pawpaw)
-
-        var i = 1 + 1
+        evaluate(1)
     }
 
     fun onButton3Clicked(v: View) {
-        // create an object of our inner AsyncTask class.
-        var getPlantsActivity = GetPlantsActivity()
-        // the method called execute will start a new thread, and THEN invoke
-        // doInBackground on that new thread.
-        getPlantsActivity.execute("1")
-
+        evaluate(2)
     }
 
     fun onButton4Clicked(v: View) {
-        // create an implicit intent to invoke the camera.
-        var cameraActivityIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(cameraActivityIntent, CAMERA_ACTIVITY_REQUEST)
+        evaluate(3)
+    }
+
+    private fun evaluate(guess: Int) {
+        when(correctAnswer) {
+            0 -> button1?.setBackgroundColor(Color.GREEN)
+            1 -> button2?.setBackgroundColor(Color.GREEN)
+            2 -> button3?.setBackgroundColor(Color.GREEN)
+            3 -> button4?.setBackgroundColor(Color.GREEN)
+        }
+        if (guess == correctAnswer) {
+            status?.setText("Correct!")
+        } else {
+            status?.setText("Incorrect. The correct plant is: " + allPlants.get(correctAnswer).toString())
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -142,6 +130,23 @@ class FlashcardActivity : AppCompatActivity() {
          */
         override fun onPostExecute(result: List<Plant>?) {
             super.onPostExecute(result)
+            var numberResults = result?.size ?: 0
+            if (numberResults > 3) {
+                // assign one of the selected plants to each of the buttons.
+                button1?.text = (result?.get(0).toString())
+                button2?.text = (result?.get(1).toString())
+                button3?.text = (result?.get(2).toString())
+                button4?.text = result?.get(3).toString()
+
+                correctAnswer = (Math.random() * 4).toInt()
+
+                // TODO now that we have chosen which plant is going to be the correct plant,
+                // we need to fetch the image and show it.
+
+                allPlants = result!!;
+
+            }
+
         }
 
         /**
