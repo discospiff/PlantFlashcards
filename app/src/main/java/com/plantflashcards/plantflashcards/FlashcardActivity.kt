@@ -42,8 +42,8 @@ class FlashcardActivity : AppCompatActivity() {
 
         val fab = findViewById(R.id.fab) as FloatingActionButton
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            var getPlantsTask = GetPlantsTask()
+            getPlantsTask.execute("")
         }
 
         imageView = findViewById(R.id.imageView) as ImageView
@@ -120,7 +120,7 @@ class FlashcardActivity : AppCompatActivity() {
 
     }
 
-    inner class GetPlantsActivity : AsyncTask<String, Int, List<Plant>?>() {
+    inner class GetPlantsTask : AsyncTask<String, Int, List<Plant>?>() {
 
         /**
          * Has access to the user interface thread, and the components of the
