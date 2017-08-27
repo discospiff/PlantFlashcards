@@ -3,6 +3,7 @@ package com.plantflashcards.plantflashcards
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import com.plantflashcards.plantflashcards.dto.Photo
@@ -22,7 +24,11 @@ import com.plantflashcards.plantflashcards.service.PlantService
 class FlashcardActivity : AppCompatActivity() {
 
     val CAMERA_ACTIVITY_REQUEST = 10
-    var imageView:ImageView ? = null
+    var imageView: ImageView? = null
+    var button1: Button? = null
+    var button2: Button? = null
+    var button3: Button? = null
+    var button4: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +43,10 @@ class FlashcardActivity : AppCompatActivity() {
         }
 
         imageView = findViewById(R.id.imageView) as ImageView
+        button1 = findViewById(R.id.button1) as Button
+        button2 = findViewById(R.id.button2) as Button
+        button3 = findViewById(R.id.button3) as Button
+        button4 = findViewById(R.id.button4) as Button
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -60,13 +70,27 @@ class FlashcardActivity : AppCompatActivity() {
     }
 
     fun onButton1Clicked(v: View) {
-        var foo:String? = "bar"
-        var size = foo?.length ?: 0
-        var i = 1 + 1
+        // select a random number between 1 and 4.
+        var randomNumber: Int = (Math.random() * 4).toInt() + 1
 
+        if (randomNumber == 1) {
+            button1?.setBackgroundColor(Color.GREEN)
+        } else if (randomNumber == 2) {
+            button2?.setBackgroundColor(Color.GREEN)
+        }else if (randomNumber == 3) {
+            button3?.setBackgroundColor(Color.GREEN)
+        } else if (randomNumber == 4) {
+            button4?.setBackgroundColor(Color.GREEN)
+        }
     }
 
+
     fun onButton2Clicked(v: View) {
+        button1?.setBackgroundColor(Color.LTGRAY)
+        button2?.setBackgroundColor(Color.LTGRAY)
+        button3?.setBackgroundColor(Color.LTGRAY)
+        button4?.setBackgroundColor(Color.LTGRAY)
+
         // declare collection
         var allPlants = ArrayList<Plant>()
 
