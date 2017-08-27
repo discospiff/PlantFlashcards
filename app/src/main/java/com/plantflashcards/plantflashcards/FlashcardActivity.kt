@@ -44,6 +44,11 @@ class FlashcardActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             var getPlantsTask = GetPlantsTask()
             getPlantsTask.execute("")
+
+            button1?.setBackgroundColor(Color.LTGRAY)
+            button2?.setBackgroundColor(Color.LTGRAY)
+            button3?.setBackgroundColor(Color.LTGRAY)
+            button4?.setBackgroundColor(Color.LTGRAY)
         }
 
         imageView = findViewById(R.id.imageView) as ImageView

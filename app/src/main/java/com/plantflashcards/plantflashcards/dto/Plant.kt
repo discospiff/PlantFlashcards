@@ -8,4 +8,9 @@ class Plant(var guid: Int, var genus : String, var species : String, var cultiva
     constructor() : this(0,"","","","") {
 
     }
+
+    override fun toString(): String {
+        return "$genus $species $cultivar $common"
+    }
+
 }
