@@ -39,6 +39,7 @@ class PlantService {
             plant.species = plantJSON.getString("species")
             plant.cultivar = plantJSON.getString("cultivar")
             plant.common = plantJSON.getString("common")
+            plant.photoName = plantJSON.getString("picture_name")
 
             // add the plant objects to a collection.
             allPlants.add(plant)

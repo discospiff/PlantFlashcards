@@ -1,5 +1,7 @@
 package com.plantflashcards.plantflashcards.dao
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.IOException
@@ -41,6 +43,25 @@ class NetworkingDAO {
             urlConnection.disconnect()
         }
         return sb.toString()
+    }
+
+    fun populatePicture(pictureName: String?) : Bitmap? {
+        // declare our return type.
+        var bitmap:Bitmap? = null
+
+        // compose a picture URI
+        val pictureURI = PLANTPLACES_COM + "/photos/mini/$pictureName"
+        val url = URL(pictureURI)
+        val inputStream = url.openConnection().getInputStream()
+        if (inputStream != null) {
+            bitmap = BitmapFactory.decodeStream(inputStream)
+        }
+
+        return bitmap
+    }
+
+    companion object {
+        val PLANTPLACES_COM = "http://www.plantplaces.com"
     }
 
 }

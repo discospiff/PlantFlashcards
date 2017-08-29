@@ -18,6 +18,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.plantflashcards.plantflashcards.dao.NetworkingDAO
 import com.plantflashcards.plantflashcards.dto.Photo
 import com.plantflashcards.plantflashcards.dto.Plant
 import com.plantflashcards.plantflashcards.service.PlantService
@@ -147,6 +148,8 @@ class FlashcardActivity : AppCompatActivity() {
 
                 // TODO now that we have chosen which plant is going to be the correct plant,
                 // we need to fetch the image and show it.
+                var getPhotoTask = GetPhotoTask()
+                getPhotoTask.execute(result?.get(correctAnswer)?.photoName)
 
                 allPlants = result!!;
 
@@ -170,6 +173,21 @@ class FlashcardActivity : AppCompatActivity() {
             // invoke another function.
             return plantService.parsePlantsFromJSONData(difficulty)
 
+        }
+
+    }
+
+    inner class GetPhotoTask : AsyncTask<String, Int, Bitmap?>() {
+
+        override fun onPostExecute(result: Bitmap?) {
+            super.onPostExecute(result)
+            imageView?.setImageBitmap(result)
+        }
+
+        override fun doInBackground(vararg picture: String?): Bitmap? {
+            var network = NetworkingDAO()
+            var bitmap = network.populatePicture(picture[0])
+            return bitmap
         }
 
     }
